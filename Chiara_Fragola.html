@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX // Chiara Fragola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #800000;
+    --accent: #800000;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --card2: #f8fafc;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --th-bg: #f1f5f9;
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --ss-bg: #faf5ff;
+  }
+
+  [data-theme="dark"] {
+    --primary: #5c0000;
+    --accent: #ef4444;
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card2: #0f172a;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --border: #334155;
+    --th-bg: #111827;
+    --input-bg: #0f172a;
+    --input-border: #475569;
+    --ss-bg: rgba(124, 58, 237, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 10px;
+    font-size: 13.5px;
+    transition: background 0.3s, color 0.3s;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  header {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-content { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  header h1 {
+    margin: 0;
+    font-family: 'Graduate', sans-serif;
+    font-size: 21px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .header-logo-wrap { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .header-logo { max-height: 65px; max-width: 240px; object-fit: contain; display: block; }
+
+  .meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; }
+  .meta-item { display: flex; flex-direction: column; min-width: 100px; }
+  .meta-item span { font-size: 9.5px; color: #fca5a5; text-transform: uppercase; font-weight: bold; }
+  .meta-item b { font-size: 13.5px; color: #fff; margin-top: 1px; }
+  
+  .header-actions { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+  .btn-download-offline, .btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-download-offline:hover, .btn-theme-toggle:hover {
+    background: #fff;
+    color: var(--primary);
+  }
+  
+  .day-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 14px;
+    padding: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    page-break-inside: avoid;
+  }
+  .day-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--accent);
+    text-transform: uppercase;
+  }
+
+  .anim-thumb {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+    display: block;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .anim-thumb img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .anim-thumb img.frame-b {
+    animation: loopGif 1.4s infinite alternate ease-in-out;
+  }
+  @keyframes loopGif {
+    0%, 45% { opacity: 0; }
+    55%, 100% { opacity: 1; }
+  }
+  .anim-thumb .play-icon {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(128, 0, 0, 0.85);
+    color: #fff;
+    font-size: 8px;
+    padding: 1px 3px;
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .desktop-table { width: 100%; border-collapse: collapse; }
+  .desktop-table th {
+    background: var(--th-bg);
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 7px;
+    border: 1px solid var(--border);
+  }
+  .desktop-table td {
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: middle;
+    background: var(--card);
+  }
+  .desktop-table tr:nth-child(even) td { background: var(--card2); }
+  .text-center { text-align: center; }
+  
+  .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .table-ex-cell { display: flex; align-items: center; gap: 8px; }
+  .table-ex-link { color: var(--text); text-decoration: none; font-weight: 600; }
+  .table-ex-link:hover { color: var(--accent); }
+
+  /* Box KG & Storico */
+  .kg-box-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+  }
+  .kg-input {
+    width: 65px;
+    padding: 4px 5px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    background: var(--input-bg);
+    text-align: center;
+  }
+  .kg-input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(128, 0, 0, 0.15);
+  }
+  .btn-history {
+    background: var(--th-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 3px 5px;
+    font-size: 12px;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+  .btn-history:hover { background: var(--border); }
+  
+  /* Super Serie Desktop - Perimetro perfetto senza linea interna */
+  tr.ss-linked td {
+    background: var(--ss-bg) !important;
+    border-top: 2px dashed #7c3aed !important;
+    border-bottom: none !important;
+  }
+  tr.ss-linked td:first-child { border-left: 4px solid #7c3aed !important; }
+  tr.ss-linked td:last-child { border-right: 2px dashed #7c3aed !important; }
+
+  /* La seconda riga SS toglie la linea in cima e mette quella sotto */
+  tr.ss-linked + tr.ss-linked td {
+    border-top: none !important;
+    border-bottom: 2px dashed #7c3aed !important;
+  }
+
+  .ss-badge {
+    background: #7c3aed;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    display: inline-block;
+  }
+  .tecnica-badge {
+    background: #0284c7;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  .variante-badge {
+    background: rgba(100, 116, 139, 0.15);
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    text-transform: none; /* Mantiene minuscole e maiuscole come le scrivi tu */
+  }
+  
+  /* Mobile Cards Base */
+  .mobile-cards { display: none; }
+  .card-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px;
+    margin-bottom: 9px;
+    background: var(--card);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+
+  /* Super Serie Mobile: unico blocco fuso senza linea di mezzo */
+  .card-item.ss-linked {
+    background: var(--ss-bg);
+    border: 2px dashed #7c3aed !important;
+    border-left: 4px solid #7c3aed !important;
+    margin-bottom: 0px !important;
+    border-bottom: none !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .card-item.ss-linked + .card-item.ss-linked {
+    border-top: none !important;
+    border-bottom: 2px dashed #7c3aed !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    margin-bottom: 10px !important;
+    padding-top: 10px;
+  }
+
+  .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .card-info { flex: 1; }
+  .card-title {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: var(--th-bg);
+    border-radius: 6px;
+    padding: 5px;
+    text-align: center;
+    gap: 3px;
+    margin-top: 5px;
+    align-items: center;
+  }
+  .card-col { display: flex; flex-direction: column; align-items: center; }
+  .card-label { font-size: 9px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .card-val { font-size: 12px; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+  /* Modal Storico */
+  .history-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  .history-modal.active { display: flex; }
+  .history-box {
+    background: var(--card);
+    color: var(--text);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 380px;
+    padding: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .history-header h3 { margin: 0; font-size: 14px; font-weight: 800; color: var(--accent); }
+  .history-close { cursor: pointer; font-size: 18px; font-weight: bold; color: var(--muted); }
+  .history-list {
+    max-height: 240px;
+    overflow-y: auto;
+    font-size: 12.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .history-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background: var(--th-bg);
+    border-radius: 5px;
+    border-left: 3px solid var(--accent);
+  }
+  .history-left { display: flex; flex-direction: column; }
+  .history-date { color: var(--muted); font-size: 11px; font-weight: 600; }
+  .history-val { font-weight: 700; color: var(--text); font-size: 13px; }
+  .history-del {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .history-del:hover { background: rgba(239, 68, 68, 0.15); }
+
+  @media screen and (max-width: 720px) {
+    body { padding: 5px; }
+    header { padding: 10px; }
+    .desktop-table { display: none; }
+    .mobile-cards { display: block; }
+    .meta { gap: 8px; }
+    .meta-item { min-width: 45%; }
+    header h1 { font-size: 16px; }
+    .header-logo { max-height: 36px; max-width: 110px; }
+  }
+
+  @media print {
+    body { background: #fff !important; color: #000 !important; padding: 0; }
+    .container { max-width: 100%; }
+    header { background: #800000 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .desktop-table { display: table !important; }
+    .mobile-cards, .btn-history, .anim-thumb, .header-actions { display: none !important; }
+    .kg-input { border: none !important; background: transparent !important; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-content">
+      <h1>APEX // PERFORMANCE LAB</h1>
+      <div class="meta">
+        <div class="meta-item"><span>Atleta</span><b>Chiara Fragola</b></div>
+        <div class="meta-item"><span>Istruttore</span><b>Giovanni</b></div>
+        <div class="meta-item"><span>Data Inizio</span><b>14/09/2026</b></div>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="btnDownloadOffline" class="btn-download-offline" title="Salva copia offline">📥 Salva Offline</button>
+        <button type="button" id="btnThemeToggle" class="btn-theme-toggle" title="Attiva/Disattiva Dark Mode">🌙 Tema</button>
+      </div>
+    </div>
+    <div class="header-logo-wrap"></div>
+  </header>
+
+<div class="day-block"><div class="day-title">Giorno 1 | Dorso - Bicipiti</div>
+<table class="desktop-table">
+          <thead>
+            <tr>
+              <th style="width:26px" class="text-center">#</th>
+              <th style="width:115px">Gruppo</th>
+              <th>Esercizio (Clicca per video YouTube)</th>
+              <th style="width:48px" class="text-center">Serie</th>
+              <th style="width:75px" class="text-center">Reps</th>
+              <th style="width:90px" class="text-center">Tecnica</th>
+              <th style="width:70px" class="text-center">Recupero</th>
+              <th style="width:110px" class="text-center">Kg & Storico</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">1</td>
+                  <td><span class="badge" style="background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640;">Zona lombare</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Iperestensioni+%28Hyperextensions+su+panca%29+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Iperestensioni+%28Hyperextensions+su+panca%29+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Iperestensioni (Hyperextensions su panca)</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">2</td>
+                  <td class="text-center" style="font-weight:600;">10-12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">60 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r1" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r1" data-name="Iperestensioni (Hyperextensions su panca)" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">2</td>
+                  <td><span class="badge" style="background:#6366f120;color:#6366f1;border:1px solid #6366f140;">Schiena centrale</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=T-Bar+Row+con+maniglia+al+bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/T-Bar_Row_with_Handle/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/T-Bar_Row_with_Handle/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=T-Bar+Row+con+maniglia+al+bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">T-Bar Row con maniglia al bilanciere</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r2" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r2" data-name="T-Bar Row con maniglia al bilanciere" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">3</td>
+                  <td><span class="badge" style="background:#3b82f620;color:#3b82f6;border:1px solid #3b82f640;">Dorsali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Lat+Machine+presa+larga+avanti+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Lat+Machine+presa+larga+avanti+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Lat Machine presa larga avanti</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10</td>
+                  <td class="text-center"><span class="tecnica-badge">Rest Pause</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r3" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r3" data-name="Lat Machine presa larga avanti" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">4</td>
+                  <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40;">Spalle</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Face+Pull+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Face+Pull+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Face Pull</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10-12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r4" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r4" data-name="Face Pull" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">5</td>
+                  <td><span class="badge" style="background:#10b98120;color:#10b981;border:1px solid #10b98140;">Bicipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Curl Martello</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r5" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r5" data-name="Curl Martello" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">6</td>
+                  <td><span class="badge" style="background:#10b98120;color:#10b981;border:1px solid #10b98140;">Bicipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Curl+su+Panca+a+45%C2%B0+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flexor_Incline_Dumbbell_Curls/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flexor_Incline_Dumbbell_Curls/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Curl+su+Panca+a+45%C2%B0+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Curl su Panca a 45°</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8-10</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r6" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r6" data-name="Curl su Panca a 45°" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">7</td>
+                  <td><span class="badge" style="background:#10b98120;color:#10b981;border:1px solid #10b98140;">Bicipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Zottman+Curl+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Zottman_Curl/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Zottman_Curl/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Zottman+Curl+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Zottman Curl con manubri</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10</td>
+                  <td class="text-center"><span class="tecnica-badge">Rest Pause</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g0_r7" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g0_r7" data-name="Zottman Curl con manubri" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+</tbody></table>
+<div class="mobile-cards">
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Iperestensioni+%28Hyperextensions+su+panca%29+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Iperestensioni+%28Hyperextensions+su+panca%29+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Iperestensioni (Hyperextensions su panca)</a>
+                      <span class="badge" style="background:#8b5cf620;color:#8b5cf6;">Zona lombare</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">2</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10-12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">60 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r1" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r1" data-name="Iperestensioni (Hyperextensions su panca)" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=T-Bar+Row+con+maniglia+al+bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/T-Bar_Row_with_Handle/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/T-Bar_Row_with_Handle/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=T-Bar+Row+con+maniglia+al+bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> T-Bar Row con maniglia al bilanciere</a>
+                      <span class="badge" style="background:#6366f120;color:#6366f1;">Schiena centrale</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r2" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r2" data-name="T-Bar Row con maniglia al bilanciere" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Lat+Machine+presa+larga+avanti+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Lat+Machine+presa+larga+avanti+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> Lat Machine presa larga avanti</a>
+                      <span class="badge" style="background:#3b82f620;color:#3b82f6;">Dorsali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;"><span class="tecnica-badge">Rest Pause</span></span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r3" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r3" data-name="Lat Machine presa larga avanti" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Face+Pull+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Face_Pull/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Face+Pull+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Face Pull</a>
+                      <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10-12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r4" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r4" data-name="Face Pull" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> Curl Martello</a>
+                      <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r5" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r5" data-name="Curl Martello" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Curl+su+Panca+a+45%C2%B0+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flexor_Incline_Dumbbell_Curls/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Flexor_Incline_Dumbbell_Curls/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Curl+su+Panca+a+45%C2%B0+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Curl su Panca a 45°</a>
+                      <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8-10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r6" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r6" data-name="Curl su Panca a 45°" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Zottman+Curl+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Zottman_Curl/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Zottman_Curl/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Zottman+Curl+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#7</b> Zottman Curl con manubri</a>
+                      <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;"><span class="tecnica-badge">Rest Pause</span></span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g0_r7" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g0_r7" data-name="Zottman Curl con manubri" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+</div></div>
+<div class="day-block"><div class="day-title">Giorno 2 | Gambe</div>
+<table class="desktop-table">
+          <thead>
+            <tr>
+              <th style="width:26px" class="text-center">#</th>
+              <th style="width:115px">Gruppo</th>
+              <th>Esercizio (Clicca per video YouTube)</th>
+              <th style="width:48px" class="text-center">Serie</th>
+              <th style="width:75px" class="text-center">Reps</th>
+              <th style="width:90px" class="text-center">Tecnica</th>
+              <th style="width:70px" class="text-center">Recupero</th>
+              <th style="width:110px" class="text-center">Kg & Storico</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">1</td>
+                  <td><span class="badge" style="background:#f43f5e20;color:#f43f5e;border:1px solid #f43f5e40;">Glutei</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Hip+Thrust+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Hip+Thrust+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Hip Thrust</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r1" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r1" data-name="Hip Thrust" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">2</td>
+                  <td><span class="badge" style="background:#d946ef20;color:#d946ef;border:1px solid #d946ef40;">Femorali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">RDL</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8-10</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r2" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r2" data-name="RDL" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">3</td>
+                  <td><span class="badge" style="background:#ec489920;color:#ec4899;border:1px solid #ec489940;">Quadricipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Press+45%C2%B0+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Leg+Press+45%C2%B0+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Leg Press 45° alla macchina</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r3" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r3" data-name="Leg Press 45° alla macchina" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">4</td>
+                  <td><span class="badge" style="background:#ec489920;color:#ec4899;border:1px solid #ec489940;">Quadricipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Extension+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Leg+Extension+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Leg Extension alla macchina</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r4" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r4" data-name="Leg Extension alla macchina" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">5</td>
+                  <td><span class="badge" style="background:#d946ef20;color:#d946ef;border:1px solid #d946ef40;">Femorali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Curl+da+sdraiato+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Leg+Curl+da+sdraiato+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Leg Curl da sdraiato alla macchina</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r5" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r5" data-name="Leg Curl da sdraiato alla macchina" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">6</td>
+                  <td><span class="badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;">Abduttori</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Abductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Abductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Abductor Machine alla macchina</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10-12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r6" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r6" data-name="Abductor Machine alla macchina" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">7</td>
+                  <td><span class="badge" style="background:#84cc1620;color:#84cc16;border:1px solid #84cc1640;">Adduttori</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Adductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Adductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Adductor Machine alla macchina</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10-12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r7" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r7" data-name="Adductor Machine alla macchina" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">8</td>
+                  <td><span class="badge" style="background:#0ea5e920;color:#0ea5e9;border:1px solid #0ea5e940;">Polpacci</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Calf+Press+alla+macchina+per+polpacci+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf_Press/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Calf+Press+alla+macchina+per+polpacci+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Calf Press alla macchina per polpacci</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">15</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">60 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g1_r8" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g1_r8" data-name="Calf Press alla macchina per polpacci" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+</tbody></table>
+<div class="mobile-cards">
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Hip+Thrust+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Hip_Thrust/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Hip+Thrust+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Hip Thrust</a>
+                      <span class="badge" style="background:#f43f5e20;color:#f43f5e;">Glutei</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r1" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r1" data-name="Hip Thrust" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> RDL</a>
+                      <span class="badge" style="background:#d946ef20;color:#d946ef;">Femorali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8-10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r2" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r2" data-name="RDL" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Leg+Press+45%C2%B0+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Press/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Press+45%C2%B0+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> Leg Press 45° alla macchina</a>
+                      <span class="badge" style="background:#ec489920;color:#ec4899;">Quadricipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r3" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r3" data-name="Leg Press 45° alla macchina" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Leg+Extension+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Extension+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Leg Extension alla macchina</a>
+                      <span class="badge" style="background:#ec489920;color:#ec4899;">Quadricipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r4" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r4" data-name="Leg Extension alla macchina" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Leg+Curl+da+sdraiato+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Leg+Curl+da+sdraiato+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> Leg Curl da sdraiato alla macchina</a>
+                      <span class="badge" style="background:#d946ef20;color:#d946ef;">Femorali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r5" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r5" data-name="Leg Curl da sdraiato alla macchina" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Abductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Abductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Abductor Machine alla macchina</a>
+                      <span class="badge" style="background:#22c55e20;color:#22c55e;">Abduttori</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10-12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r6" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r6" data-name="Abductor Machine alla macchina" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Adductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Adductor+Machine+alla+macchina+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#7</b> Adductor Machine alla macchina</a>
+                      <span class="badge" style="background:#84cc1620;color:#84cc16;">Adduttori</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10-12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r7" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r7" data-name="Adductor Machine alla macchina" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Calf+Press+alla+macchina+per+polpacci+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf_Press/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Calf_Press/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Calf+Press+alla+macchina+per+polpacci+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#8</b> Calf Press alla macchina per polpacci</a>
+                      <span class="badge" style="background:#0ea5e920;color:#0ea5e9;">Polpacci</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">15</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">60 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g1_r8" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g1_r8" data-name="Calf Press alla macchina per polpacci" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+</div></div>
+<div class="day-block"><div class="day-title">Giorno 3 | Petto - Spalle - Tricipiti</div>
+<table class="desktop-table">
+          <thead>
+            <tr>
+              <th style="width:26px" class="text-center">#</th>
+              <th style="width:115px">Gruppo</th>
+              <th>Esercizio (Clicca per video YouTube)</th>
+              <th style="width:48px" class="text-center">Serie</th>
+              <th style="width:75px" class="text-center">Reps</th>
+              <th style="width:90px" class="text-center">Tecnica</th>
+              <th style="width:70px" class="text-center">Recupero</th>
+              <th style="width:110px" class="text-center">Kg & Storico</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">1</td>
+                  <td><span class="badge" style="background:#ef444420;color:#ef4444;border:1px solid #ef444440;">Petto</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Distensioni+su+panca+piana+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Distensioni+su+panca+piana+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Distensioni su panca piana con manubri</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r1" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r1" data-name="Distensioni su panca piana con manubri" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">2</td>
+                  <td><span class="badge" style="background:#ef444420;color:#ef4444;border:1px solid #ef444440;">Petto</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Croci+inclinate+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Flyes/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Flyes/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Croci+inclinate+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Croci inclinate con manubri</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8-10</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r2" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r2" data-name="Croci inclinate con manubri" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">3</td>
+                  <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40;">Spalle</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Lento+avanti+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Dumbbell_Press/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Dumbbell_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Lento+avanti+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Lento avanti con manubri</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">2 min</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r3" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r3" data-name="Lento avanti con manubri" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">4</td>
+                  <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40;">Spalle</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Alzate+laterali+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Alzate+laterali+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Alzate laterali</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">12</td>
+                  <td class="text-center"><span class="tecnica-badge">Rest Pause</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r4" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r4" data-name="Alzate laterali" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">5</td>
+                  <td><span class="badge" style="background:#14b8a620;color:#14b8a6;border:1px solid #14b8a640;">Tricipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=French+Press+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=French+Press+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">French Press con Bilanciere</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">8</td>
+                  <td class="text-center"><span class="variante-badge">a 30°</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r5" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r5" data-name="French Press con Bilanciere" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">6</td>
+                  <td><span class="badge" style="background:#14b8a620;color:#14b8a6;border:1px solid #14b8a640;">Tricipiti</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Pushdown</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">10</td>
+                  <td class="text-center"><span class="tecnica-badge">Rest Pause</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r6" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r6" data-name="Pushdown" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">7</td>
+                  <td><span class="badge" style="background:#f9731620;color:#f97316;border:1px solid #f9731640;">Trapezi</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Scrollate+con+manubri+%28Dumbbell+Shrug%29+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shrug/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shrug/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Scrollate+con+manubri+%28Dumbbell+Shrug%29+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Scrollate con manubri (Dumbbell Shrug)</a>
+                    </div>
+                  </td>
+                  <td class="text-center" style="font-weight:700;">3</td>
+                  <td class="text-center" style="font-weight:600;">12</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="e3ca013505_g2_r7" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="e3ca013505_g2_r7" data-name="Scrollate con manubri (Dumbbell Shrug)" title="Vedi storico carichi">📈</button>
+                    </div>
+                  </td>
+                </tr>
+</tbody></table>
+<div class="mobile-cards">
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Distensioni+su+panca+piana+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Distensioni+su+panca+piana+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Distensioni su panca piana con manubri</a>
+                      <span class="badge" style="background:#ef444420;color:#ef4444;">Petto</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r1" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r1" data-name="Distensioni su panca piana con manubri" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Croci+inclinate+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Flyes/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Incline_Dumbbell_Flyes/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Croci+inclinate+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> Croci inclinate con manubri</a>
+                      <span class="badge" style="background:#ef444420;color:#ef4444;">Petto</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8-10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r2" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r2" data-name="Croci inclinate con manubri" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Lento+avanti+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Dumbbell_Press/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Dumbbell_Press/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Lento+avanti+con+manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> Lento avanti con manubri</a>
+                      <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">2 min</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r3" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r3" data-name="Lento avanti con manubri" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Alzate+laterali+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Alzate+laterali+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Alzate laterali</a>
+                      <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;"><span class="tecnica-badge">Rest Pause</span></span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r4" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r4" data-name="Alzate laterali" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=French+Press+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=French+Press+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> French Press con Bilanciere</a>
+                      <span class="badge" style="background:#14b8a620;color:#14b8a6;">Tricipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">8</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;"><span class="variante-badge">a 30°</span></span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r5" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r5" data-name="French Press con Bilanciere" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Pushdown</a>
+                      <span class="badge" style="background:#14b8a620;color:#14b8a6;">Tricipiti</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">10</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;"><span class="tecnica-badge">Rest Pause</span></span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r6" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r6" data-name="Pushdown" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Scrollate+con+manubri+%28Dumbbell+Shrug%29+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shrug/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shrug/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Scrollate+con+manubri+%28Dumbbell+Shrug%29+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#7</b> Scrollate con manubri (Dumbbell Shrug)</a>
+                      <span class="badge" style="background:#f9731620;color:#f97316;">Trapezi</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><span class="card-val">3</span></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">12</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="e3ca013505_g2_r7" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="e3ca013505_g2_r7" data-name="Scrollate con manubri (Dumbbell Shrug)" style="padding:2px 4px;">📈</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+</div></div>
+</div>
+
+<div id="historyModal" class="history-modal">
+  <div class="history-box">
+    <div class="history-header">
+      <h3 id="modalTitle">Storico Carichi</h3>
+      <span class="history-close" id="modalClose">&times;</span>
+    </div>
+    <div id="historyList" class="history-list"></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Gestione Dark Mode Mobile
+    const themeToggle = document.getElementById('btnThemeToggle');
+    const htmlRoot = document.documentElement;
+    const savedTheme = localStorage.getItem('apex_theme') || 'light';
+    
+    if (savedTheme === 'dark') {
+      htmlRoot.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️ Tema';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      if (htmlRoot.getAttribute('data-theme') === 'dark') {
+        htmlRoot.removeAttribute('data-theme');
+        localStorage.setItem('apex_theme', 'light');
+        themeToggle.textContent = '🌙 Tema';
+      } else {
+        htmlRoot.setAttribute('data-theme', 'dark');
+        localStorage.setItem('apex_theme', 'dark');
+        themeToggle.textContent = '☀️ Tema';
+      }
+    });
+
+    const inputs = document.querySelectorAll('.kg-input');
+    const histBtns = document.querySelectorAll('.btn-history');
+    const modal = document.getElementById('historyModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const historyList = document.getElementById('historyList');
+    const modalClose = document.getElementById('modalClose');
+    let currentActiveKey = null;
+
+    function getNowStr() {
+      const d = new Date();
+      const datePart = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+      const timePart = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      return datePart + ' ' + timePart;
+    }
+
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-key');
+      const saved = localStorage.getItem(key);
+      if (saved !== null) {
+        input.value = saved;
+      }
+
+      input.addEventListener('change', (e) => {
+        const val = e.target.value.trim();
+        localStorage.setItem(key, val);
+
+        document.querySelectorAll(`.kg-input[data-key="${key}"]`).forEach(el => {
+          if (el !== e.target) el.value = val;
+        });
+
+        if (val) {
+          const histKey = 'hist_' + key;
+          let history = JSON.parse(localStorage.getItem(histKey) || '[]');
+          history.push({ id: Date.now(), date: getNowStr(), kg: val });
+          localStorage.setItem(histKey, JSON.stringify(history));
+        }
+      });
+    });
+
+    function renderHistoryList(key) {
+      const histKey = 'hist_' + key;
+      const history = JSON.parse(localStorage.getItem(histKey) || '[]');
+      historyList.innerHTML = '';
+
+      if (history.length === 0) {
+        historyList.innerHTML = '<div style="color:#94a3b8;text-align:center;padding:12px;">Nessun carico registrato finora.</div>';
+        return;
+      }
+
+      [...history].reverse().forEach(h => {
+        const row = document.createElement('div');
+        row.className = 'history-entry';
+        row.innerHTML = `
+          <div class="history-left">
+            <span class="history-val">${h.kg} Kg</span>
+            <span class="history-date">${h.date}</span>
+          </div>
+          <button type="button" class="history-del" data-id="${h.id}" title="Elimina questa voce">&times;</button>
+        `;
+        historyList.appendChild(row);
+      });
+
+      historyList.querySelectorAll('.history-del').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idToDel = Number(btn.getAttribute('data-id'));
+          let curHist = JSON.parse(localStorage.getItem(histKey) || '[]');
+          curHist = curHist.filter(item => item.id !== idToDel);
+          localStorage.setItem(histKey, JSON.stringify(curHist));
+          renderHistoryList(key);
+        });
+      });
+    }
+
+    histBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentActiveKey = btn.getAttribute('data-key');
+        const name = btn.getAttribute('data-name');
+        modalTitle.textContent = name;
+        renderHistoryList(currentActiveKey);
+        modal.classList.add('active');
+      });
+    });
+
+    modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  })();
+
+  const dlBtn = document.getElementById('btnDownloadOffline');
+  if (dlBtn) {
+    dlBtn.addEventListener('click', () => {
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = window.location.pathname.split('/').pop() || 'Scheda_Allenamento.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+</script>
+</body></html>
