@@ -72,8 +72,12 @@
     color: #fff;
     border-radius: 8px;
     padding: 12px 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    margin-bottom: 14px;
+    /* Bagliore al Neon: 
+       1. Bordo sottile che si accende (rosso neon)
+       2. Alone luminoso diffuso (rosso vivo #ef4444) */
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 25px rgba(239, 68, 68, 0.25);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -395,11 +399,16 @@
   .text-center { text-align: center; }
   
   .badge {
-    display: inline-block;
-    padding: 4px 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    width: fit-content;
+    padding: 3px 8px;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
+    line-height: 1.2;
   }
   .table-ex-cell { display: flex; align-items: center; gap: 8px; }
   .table-ex-link { color: var(--text); text-decoration: none; font-weight: 600; }
@@ -1024,6 +1033,33 @@
                     </div>
                   </td>
                 </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">10</td>
+                  <td><span class="badge" style="background:#eab30820;color:#eab308;border:1px solid #eab30840;">Addominali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Ab Crunch Machine</a>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="sets-tracker"><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div>
+                  </td>
+                  <td class="text-center" style="font-weight:600;">15</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="cfeed564db_g0_Ab_Crunch_Machine" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="cfeed564db_g0_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Vedi storico carichi">📈</button>
+                      <button type="button" class="btn-notes" data-key="cfeed564db_g0_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Note esercizio">📝</button>
+                    </div>
+                  </td>
+                </tr>
 </tbody></table>
 <div class="mobile-cards">
 <div class="card-item">
@@ -1260,6 +1296,32 @@
                     </div>
                   </div>
                 </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#10</b> Ab Crunch Machine</a>
+                      <span class="badge" style="background:#eab30820;color:#eab308;">Addominali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><div class="sets-tracker" style="margin-top:2px;"><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g0_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">15</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="cfeed564db_g0_Ab_Crunch_Machine" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="cfeed564db_g0_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📈</button>
+                        <button type="button" class="btn-notes" data-key="cfeed564db_g0_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📝</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 </div></div>
 <div class="day-block" id="dayBlock_1"><div class="day-title">Giorno 2 | Petto - Tricipiti</div>
 <table class="desktop-table">
@@ -1465,6 +1527,33 @@
                     </div>
                   </td>
                 </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">8</td>
+                  <td><span class="badge" style="background:#eab30820;color:#eab308;border:1px solid #eab30840;">Addominali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Ab Crunch Machine</a>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="sets-tracker"><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div>
+                  </td>
+                  <td class="text-center" style="font-weight:600;">15</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="cfeed564db_g1_Ab_Crunch_Machine" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="cfeed564db_g1_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Vedi storico carichi">📈</button>
+                      <button type="button" class="btn-notes" data-key="cfeed564db_g1_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Note esercizio">📝</button>
+                    </div>
+                  </td>
+                </tr>
 </tbody></table>
 <div class="mobile-cards">
 <div class="card-item">
@@ -1645,6 +1734,32 @@
                         <input type="text" class="kg-input" data-key="cfeed564db_g1_Pushdown" value="" placeholder="-" style="width:52px;padding:2px;" />
                         <button type="button" class="btn-history" data-key="cfeed564db_g1_Pushdown" data-name="Pushdown" style="padding:2px 4px;">📈</button>
                         <button type="button" class="btn-notes" data-key="cfeed564db_g1_Pushdown" data-name="Pushdown" style="padding:2px 4px;">📝</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#8</b> Ab Crunch Machine</a>
+                      <span class="badge" style="background:#eab30820;color:#eab308;">Addominali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><div class="sets-tracker" style="margin-top:2px;"><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g1_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">15</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="cfeed564db_g1_Ab_Crunch_Machine" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="cfeed564db_g1_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📈</button>
+                        <button type="button" class="btn-notes" data-key="cfeed564db_g1_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📝</button>
                       </div>
                     </div>
                   </div>
@@ -1854,6 +1969,33 @@
                     </div>
                   </td>
                 </tr>
+<tr>
+                  <td class="text-center" style="font-weight:600;color:var(--muted);">8</td>
+                  <td><span class="badge" style="background:#eab30820;color:#eab308;border:1px solid #eab30840;">Addominali</span></td>
+                  <td>
+                    <div class="table-ex-cell">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <span class="play-icon">▶</span>
+                      </a>
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Ab Crunch Machine</a>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="sets-tracker"><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div>
+                  </td>
+                  <td class="text-center" style="font-weight:600;">15</td>
+                  <td class="text-center"><span style="color:#94a3b8;">-</span></td>
+                  <td class="text-center cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</td>
+                  <td class="text-center">
+                    <div class="kg-box-wrap">
+                      <input type="text" class="kg-input" data-key="cfeed564db_g2_Ab_Crunch_Machine" value="" placeholder="-" />
+                      <button type="button" class="btn-history" data-key="cfeed564db_g2_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Vedi storico carichi">📈</button>
+                      <button type="button" class="btn-notes" data-key="cfeed564db_g2_Ab_Crunch_Machine" data-name="Ab Crunch Machine" title="Note esercizio">📝</button>
+                    </div>
+                  </td>
+                </tr>
 </tbody></table>
 <div class="mobile-cards">
 <div class="card-item">
@@ -2034,6 +2176,32 @@
                         <input type="text" class="kg-input" data-key="cfeed564db_g2_Curl_con_Bilanciere_EZ" value="" placeholder="-" style="width:52px;padding:2px;" />
                         <button type="button" class="btn-history" data-key="cfeed564db_g2_Curl_con_Bilanciere_EZ" data-name="Curl con Bilanciere EZ" style="padding:2px 4px;">📈</button>
                         <button type="button" class="btn-notes" data-key="cfeed564db_g2_Curl_con_Bilanciere_EZ" data-name="Curl con Bilanciere EZ" style="padding:2px 4px;">📝</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<div class="card-item">
+                  <div class="card-top">
+                    <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Ab_Crunch_Machine/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <span class="play-icon">▶</span>
+                    </a>
+                    <div class="card-info">
+                      <a href="https://www.youtube.com/results?search_query=Ab+Crunch+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#8</b> Ab Crunch Machine</a>
+                      <span class="badge" style="background:#eab30820;color:#eab308;">Addominali</span>
+                    </div>
+                  </div>
+                  <div class="card-grid">
+                    <div class="card-col"><span class="card-label">Serie</span><div class="sets-tracker" style="margin-top:2px;"><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s1" data-rest="90 s" title="Serie 1">1</span><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s2" data-rest="90 s" title="Serie 2">2</span><span class="set-pill" data-set-key="cfeed564db_g2_Ab_Crunch_Machine_s3" data-rest="90 s" title="Serie 3">3</span></div></div>
+                    <div class="card-col"><span class="card-label">Reps</span><span class="card-val">15</span></div>
+                    <div class="card-col"><span class="card-label">Tecnica</span><span class="card-val" style="font-size:10.5px;">-</span></div>
+                    <div class="card-col"><span class="card-label">Rec</span><span class="card-val cell-rest" data-rest="90 s" title="Tocca per avviare recupero">90 s</span></div>
+                    <div class="card-col"><span class="card-label">Kg</span>
+                      <div class="kg-box-wrap" style="margin-top:2px;">
+                        <input type="text" class="kg-input" data-key="cfeed564db_g2_Ab_Crunch_Machine" value="" placeholder="-" style="width:52px;padding:2px;" />
+                        <button type="button" class="btn-history" data-key="cfeed564db_g2_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📈</button>
+                        <button type="button" class="btn-notes" data-key="cfeed564db_g2_Ab_Crunch_Machine" data-name="Ab Crunch Machine" style="padding:2px 4px;">📝</button>
                       </div>
                     </div>
                   </div>
