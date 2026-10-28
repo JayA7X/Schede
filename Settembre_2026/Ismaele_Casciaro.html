@@ -73,7 +73,9 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin-bottom: 12px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    /* Doppio bagliore permanente: ombra profonda + alone luminoso rosso */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2), 0 0 16px rgba(128, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Micro-bordo per riflettere la luce */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -976,8 +978,8 @@
                   <td>
                     <div class="table-ex-cell">
                       <a href="https://www.youtube.com/results?search_query=Hyperextension+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Clicca per video YouTube">
-                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_Back_Extensions/0.jpg" alt="frame 1" loading="lazy">
-                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_Back_Extensions/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/0.jpg" alt="frame 1" loading="lazy">
+                        <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
                       <a href="https://www.youtube.com/results?search_query=Hyperextension+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Hyperextension</a>
@@ -1184,8 +1186,8 @@
 <div class="card-item">
                   <div class="card-top">
                     <a href="https://www.youtube.com/results?search_query=Hyperextension+esecuzione+tutorial" target="_blank" rel="noopener" class="anim-thumb" title="Tocca per video YouTube">
-                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_Back_Extensions/0.jpg" alt="f0" loading="lazy">
-                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_Back_Extensions/1.jpg" class="frame-b" alt="f1" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/0.jpg" alt="f0" loading="lazy">
+                      <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hyperextensions_%28Back_Extensions%29/1.jpg" class="frame-b" alt="f1" loading="lazy">
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
@@ -2533,6 +2535,54 @@
     window.addEventListener('click', (e) => {
       if (e.target === notesModal) notesModal.classList.remove('active');
     });
+    
+    // Speciale Halloween (Attivo in automatico solo fino al 31 Ottobre)
+    (function() {
+      const today = new Date();
+      const isHalloween = (today.getMonth() === 9 && today.getDate() <= 31); // Mese 9 = Ottobre
+
+      if (isHalloween) {
+        // Aggiunge un accento arancione all'header
+        const header = document.querySelector('header');
+        if (header) header.style.boxShadow = '0 0 15px rgba(249, 115, 22, 0.4)';
+
+        // Creazione particelle fluttuanti
+        const icons = ['🎃', '👻', '🦇', '🕷️', '🍬'];
+        const container = document.createElement('div');
+        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999;overflow:hidden;';
+        document.body.appendChild(container);
+
+        for (let i = 0; i < 16; i++) {
+          const el = document.createElement('span');
+          el.textContent = icons[Math.floor(Math.random() * icons.length)];
+          const size = Math.random() * 12 + 14;
+          const left = Math.random() * 100;
+          const duration = Math.random() * 8 + 6;
+          const delay = Math.random() * 5;
+
+          el.style.cssText = `
+            position: absolute;
+            bottom: -30px;
+            left: ${left}%;
+            font-size: ${size}px;
+            opacity: ${Math.random() * 0.4 + 0.2};
+            animation: floatUp ${duration}s linear ${delay}s infinite;
+          `;
+          container.appendChild(el);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    })();
   })();
 
   const dlBtn = document.getElementById('btnDownloadOffline');
