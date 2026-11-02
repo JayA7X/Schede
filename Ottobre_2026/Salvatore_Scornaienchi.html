@@ -73,9 +73,6 @@
     border-radius: 8px;
     padding: 12px 16px;
     margin-bottom: 14px;
-    /* Bagliore al Neon: 
-       1. Bordo sottile che si accende (rosso neon)
-       2. Alone luminoso diffuso (rosso vivo #ef4444) */
     border: 1px solid rgba(239, 68, 68, 0.45);
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 25px rgba(239, 68, 68, 0.25);
     display: flex;
@@ -108,7 +105,6 @@
   .meta-item span { font-size: 9.5px; color: #fca5a5; text-transform: uppercase; font-weight: bold; }
   .meta-item b { font-size: 13.5px; color: #fff; margin-top: 1px; }
   
-  /* Selettore Tema e Download sotto il logo con sole icone */
   .header-actions-right {
     display: flex;
     gap: 6px;
@@ -135,7 +131,7 @@
     color: var(--primary);
   }
 
-  /* Barra di Navigazione Giorni (Stile Quaderno Digitale) */
+  /* Barra di Navigazione Giorni */
   .days-nav-wrapper {
     position: sticky;
     top: 0;
@@ -146,7 +142,6 @@
     backdrop-filter: blur(8px);
   }
   
-  /* Riga superiore della barra dei giorni: PageCount + Timer + Azzera Serie */
   .days-top-bar {
     display: flex;
     justify-content: space-between;
@@ -163,7 +158,7 @@
     white-space: nowrap;
   }
 
-  /* Timer Integrato nella barra dei giorni */
+  /* Timer Integrato */
   .rest-timer-box {
     display: inline-flex;
     align-items: center;
@@ -216,7 +211,6 @@
     background: var(--border);
   }
 
-  /* Tasto Azzera Serie Material Coordinato */
   .btn-reset-sets {
     background: var(--th-bg);
     border: 1px solid var(--border);
@@ -244,7 +238,6 @@
     transform: scale(0.98);
   }
 
-  /* Segmented Track Container (Material 3) */
   .days-nav {
     display: inline-flex;
     gap: 2px;
@@ -288,7 +281,6 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
   }
   
-  /* Contenitore e Animazioni Pagine */
   .days-container {
     position: relative;
     overflow: hidden;
@@ -411,8 +403,7 @@
     line-height: 1.2;
   }
   .table-ex-cell { display: flex; align-items: center; gap: 8px; }
-  .table-ex-link { color: var(--text); text-decoration: none; font-weight: 600; }
-  .table-ex-link:hover { color: var(--accent); }
+  .table-ex-name { color: var(--text); font-weight: 600; }
 
   /* Box KG & Storico */
   .kg-box-wrap {
@@ -520,7 +511,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   }
   
-  /* Cella Recupero Cliccabile / Countdown Attivo */
+  /* Cella Recupero Cliccabile */
   .cell-rest {
     cursor: pointer;
     transition: all 0.15s;
@@ -535,7 +526,7 @@
     text-shadow: 0 0 8px rgba(128, 0, 0, 0.2);
   }
   
-  /* Evidenziazione Verde quando tutte le serie sono completate */
+  /* Evidenziazione Verde */
   tr.exercise-completed td {
     background: rgba(16, 185, 129, 0.08) !important;
   }
@@ -625,11 +616,10 @@
 
   .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
   .card-info { flex: 1; }
-  .card-title {
+  .card-title-text {
     font-weight: 700;
     font-size: 13.5px;
     color: var(--text);
-    text-decoration: none;
     display: block;
     margin-bottom: 3px;
   }
@@ -648,7 +638,7 @@
   .card-label { font-size: 9px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   .card-val { font-size: 12px; font-weight: 700; color: var(--text); margin-top: 2px; }
 
-  /* Modal Storico */
+  /* Modal Storico con Grafico Integrato */
   .history-modal {
     display: none;
     position: fixed;
@@ -664,7 +654,7 @@
     color: var(--text);
     border-radius: 8px;
     width: 90%;
-    max-width: 380px;
+    max-width: 400px;
     padding: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   }
@@ -678,8 +668,117 @@
   }
   .history-header h3 { margin: 0; font-size: 14px; font-weight: 800; color: var(--accent); }
   .history-close { cursor: pointer; font-size: 18px; font-weight: bold; color: var(--muted); }
+  
+  /* Contenitore Grafico Progressioni */
+    .chart-summary {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .chart-summary.visible { display: flex; }
+  .chart-range {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--text);
+    min-width: 0;
+  }
+  .chart-arrow { color: var(--muted); font-weight: 600; font-size: 13px; }
+  .chart-delta {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .chart-delta.up { color: #059669; background: rgba(16, 185, 129, 0.14); }
+  .chart-delta.down { color: #e11d48; background: rgba(225, 29, 72, 0.12); }
+  .chart-delta.flat {
+    color: var(--muted);
+    background: var(--th-bg);
+    border: 1px solid var(--border);
+  }
+  .chart-wrap {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 4px;
+    position: relative;
+    background: var(--th-bg);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: none;
+  }
+    .chart-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .chart-tip {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.25;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    white-space: nowrap;
+  }
+  .chart-tip.visible { display: block; }
+  .chart-tip small {
+    display: block;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 10px;
+  }
+  .chart-dates {
+    display: none;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 4px 2px 0 2px;
+  }
+  .chart-dates.visible { display: flex; }
+  .chart-caption {
+    display: none;
+    font-size: 10.5px;
+    color: var(--muted);
+    text-align: center;
+    margin: 2px 0 10px 0;
+  }
+  .chart-caption.visible { display: block; }
+  .history-order {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 2px 6px 2px;
+  }
+  .chart-empty {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
   .history-list {
-    max-height: 240px;
+    max-height: 200px;
     overflow-y: auto;
     font-size: 12.5px;
     display: flex;
@@ -781,7 +880,7 @@
             <tr>
               <th style="width:26px" class="text-center">#</th>
               <th style="width:115px">Gruppo</th>
-              <th>Esercizio (Clicca per video YouTube)</th>
+              <th>Esercizio</th>
               <th style="width:48px" class="text-center">Serie</th>
               <th style="width:75px" class="text-center">Reps</th>
               <th style="width:90px" class="text-center">Tecnica</th>
@@ -800,7 +899,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Military_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Military+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Military Press</a>
+                      <span class="table-ex-name">Military Press</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -827,7 +926,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bicep_Curl/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Curl+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Curl Manubri</a>
+                      <span class="table-ex-name">Curl Manubri</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -854,7 +953,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Triceps_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=French+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">French Press</a>
+                      <span class="table-ex-name">French Press</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -881,7 +980,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Reverse_Flyes/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Aperture+da+Prono+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Aperture da Prono</a>
+                      <span class="table-ex-name">Aperture da Prono</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -908,7 +1007,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hammer_Curls/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Curl Martello</a>
+                      <span class="table-ex-name">Curl Martello</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -935,7 +1034,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Pushdown</a>
+                      <span class="table-ex-name">Pushdown</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -962,7 +1061,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Lateral_Raise/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Alzate+Laterali+con+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Alzate Laterali con Manubri</a>
+                      <span class="table-ex-name">Alzate Laterali con Manubri</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -989,7 +1088,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Biceps_Cable_Curl/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Curl+al+Cavo+Basso+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Curl al Cavo Basso<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Curl al Cavo Basso<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1016,7 +1115,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Triceps_Pushdown_-_Rope_Attachment/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Pushdown+con+Corda+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Pushdown con Corda<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Pushdown con Corda<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1043,7 +1142,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Military+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Military Press</a>
+                      <span class="card-title-text"><b>#1</b> Military Press</span>
                       <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
                     </div>
                   </div>
@@ -1069,7 +1168,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Curl+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> Curl Manubri</a>
+                      <span class="card-title-text"><b>#2</b> Curl Manubri</span>
                       <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
                     </div>
                   </div>
@@ -1095,7 +1194,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=French+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> French Press</a>
+                      <span class="card-title-text"><b>#3</b> French Press</span>
                       <span class="badge" style="background:#14b8a620;color:#14b8a6;">Tricipiti</span>
                     </div>
                   </div>
@@ -1121,7 +1220,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Aperture+da+Prono+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Aperture da Prono</a>
+                      <span class="card-title-text"><b>#4</b> Aperture da Prono</span>
                       <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
                     </div>
                   </div>
@@ -1147,7 +1246,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Curl+Martello+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> Curl Martello</a>
+                      <span class="card-title-text"><b>#5</b> Curl Martello</span>
                       <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
                     </div>
                   </div>
@@ -1173,7 +1272,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Pushdown+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Pushdown</a>
+                      <span class="card-title-text"><b>#6</b> Pushdown</span>
                       <span class="badge" style="background:#14b8a620;color:#14b8a6;">Tricipiti</span>
                     </div>
                   </div>
@@ -1199,7 +1298,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Alzate+Laterali+con+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#7</b> Alzate Laterali con Manubri</a>
+                      <span class="card-title-text"><b>#7</b> Alzate Laterali con Manubri</span>
                       <span class="badge" style="background:#f59e0b20;color:#f59e0b;">Spalle</span>
                     </div>
                   </div>
@@ -1225,7 +1324,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Curl+al+Cavo+Basso+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#8</b> Curl al Cavo Basso<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#8</b> Curl al Cavo Basso<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#10b98120;color:#10b981;">Bicipiti</span>
                     </div>
                   </div>
@@ -1251,7 +1350,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Pushdown+con+Corda+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#9</b> Pushdown con Corda<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#9</b> Pushdown con Corda<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#14b8a620;color:#14b8a6;">Tricipiti</span>
                     </div>
                   </div>
@@ -1276,7 +1375,7 @@
             <tr>
               <th style="width:26px" class="text-center">#</th>
               <th style="width:115px">Gruppo</th>
-              <th>Esercizio (Clicca per video YouTube)</th>
+              <th>Esercizio</th>
               <th style="width:48px" class="text-center">Serie</th>
               <th style="width:75px" class="text-center">Reps</th>
               <th style="width:90px" class="text-center">Tecnica</th>
@@ -1295,7 +1394,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hack_Squat/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Hack+Squat+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Hack Squat</a>
+                      <span class="table-ex-name">Hack Squat</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1322,7 +1421,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Romanian_Deadlift/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">RDL</a>
+                      <span class="table-ex-name">RDL</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1349,7 +1448,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lunges/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Affondi+con+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Affondi con Manubri</a>
+                      <span class="table-ex-name">Affondi con Manubri</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1376,7 +1475,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Leg+Extension+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Leg Extension<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Leg Extension<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1403,7 +1502,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Leg+Curl+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Leg Curl<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Leg Curl<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1430,7 +1529,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Abductor/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Abductor+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Abductor Machine</a>
+                      <span class="table-ex-name">Abductor Machine</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1457,7 +1556,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Thigh_Adductor/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Adductor+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Adductor Machine</a>
+                      <span class="table-ex-name">Adductor Machine</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1484,7 +1583,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Calf_Raise/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Calf+Machine+da+Seduto+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Calf Machine da Seduto</a>
+                      <span class="table-ex-name">Calf Machine da Seduto</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1511,7 +1610,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Hack+Squat+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Hack Squat</a>
+                      <span class="card-title-text"><b>#1</b> Hack Squat</span>
                       <span class="badge" style="background:#ec489920;color:#ec4899;">Quadricipiti</span>
                     </div>
                   </div>
@@ -1537,7 +1636,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=RDL+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> RDL</a>
+                      <span class="card-title-text"><b>#2</b> RDL</span>
                       <span class="badge" style="background:#d946ef20;color:#d946ef;">Femorali</span>
                     </div>
                   </div>
@@ -1563,7 +1662,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Affondi+con+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> Affondi con Manubri</a>
+                      <span class="card-title-text"><b>#3</b> Affondi con Manubri</span>
                       <span class="badge" style="background:#ec489920;color:#ec4899;">Quadricipiti</span>
                     </div>
                   </div>
@@ -1589,7 +1688,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Leg+Extension+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Leg Extension<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#4</b> Leg Extension<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#ec489920;color:#ec4899;">Quadricipiti</span>
                     </div>
                   </div>
@@ -1615,7 +1714,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Leg+Curl+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> Leg Curl<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#5</b> Leg Curl<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#d946ef20;color:#d946ef;">Femorali</span>
                     </div>
                   </div>
@@ -1641,7 +1740,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Abductor+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Abductor Machine</a>
+                      <span class="card-title-text"><b>#6</b> Abductor Machine</span>
                       <span class="badge" style="background:#22c55e20;color:#22c55e;">Abduttori</span>
                     </div>
                   </div>
@@ -1667,7 +1766,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Adductor+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#7</b> Adductor Machine</a>
+                      <span class="card-title-text"><b>#7</b> Adductor Machine</span>
                       <span class="badge" style="background:#84cc1620;color:#84cc16;">Adduttori</span>
                     </div>
                   </div>
@@ -1693,7 +1792,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Calf+Machine+da+Seduto+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#8</b> Calf Machine da Seduto</a>
+                      <span class="card-title-text"><b>#8</b> Calf Machine da Seduto</span>
                       <span class="badge" style="background:#0ea5e920;color:#0ea5e9;">Polpacci</span>
                     </div>
                   </div>
@@ -1718,7 +1817,7 @@
             <tr>
               <th style="width:26px" class="text-center">#</th>
               <th style="width:115px">Gruppo</th>
-              <th>Esercizio (Clicca per video YouTube)</th>
+              <th>Esercizio</th>
               <th style="width:48px" class="text-center">Serie</th>
               <th style="width:75px" class="text-center">Reps</th>
               <th style="width:90px" class="text-center">Tecnica</th>
@@ -1737,7 +1836,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Panca+Piana+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Panca Piana Manubri</a>
+                      <span class="table-ex-name">Panca Piana Manubri</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1764,7 +1863,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Bent_Over_Barbell_Row/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Rematore+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Rematore con Bilanciere</a>
+                      <span class="table-ex-name">Rematore con Bilanciere</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1791,7 +1890,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Cable_Crossover/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Croci+ai+Cavi+Alti+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Croci ai Cavi Alti</a>
+                      <span class="table-ex-name">Croci ai Cavi Alti</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1818,7 +1917,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Seated_Cable_Rows/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Pulley+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Pulley</a>
+                      <span class="table-ex-name">Pulley</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1845,7 +1944,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leverage_Chest_Press/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Chest+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Chest Press<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Chest Press<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1872,7 +1971,7 @@
                         <img src="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Wide-Grip_Lat_Pulldown/1.jpg" class="frame-b" alt="frame 2" loading="lazy">
                         <span class="play-icon">▶</span>
                       </a>
-                      <a href="https://www.youtube.com/results?search_query=Lat+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="table-ex-link" title="Guarda video tutorial">Lat Machine<span class="ss-badge">🔗 SS</span></a>
+                      <span class="table-ex-name">Lat Machine<span class="ss-badge">🔗 SS</span></span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -1899,7 +1998,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Panca+Piana+Manubri+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#1</b> Panca Piana Manubri</a>
+                      <span class="card-title-text"><b>#1</b> Panca Piana Manubri</span>
                       <span class="badge" style="background:#ef444420;color:#ef4444;">Petto</span>
                     </div>
                   </div>
@@ -1925,7 +2024,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Rematore+con+Bilanciere+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#2</b> Rematore con Bilanciere</a>
+                      <span class="card-title-text"><b>#2</b> Rematore con Bilanciere</span>
                       <span class="badge" style="background:#6366f120;color:#6366f1;">Schiena centrale</span>
                     </div>
                   </div>
@@ -1951,7 +2050,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Croci+ai+Cavi+Alti+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#3</b> Croci ai Cavi Alti</a>
+                      <span class="card-title-text"><b>#3</b> Croci ai Cavi Alti</span>
                       <span class="badge" style="background:#ef444420;color:#ef4444;">Petto</span>
                     </div>
                   </div>
@@ -1977,7 +2076,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Pulley+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#4</b> Pulley</a>
+                      <span class="card-title-text"><b>#4</b> Pulley</span>
                       <span class="badge" style="background:#6366f120;color:#6366f1;">Schiena centrale</span>
                     </div>
                   </div>
@@ -2003,7 +2102,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Chest+Press+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#5</b> Chest Press<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#5</b> Chest Press<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#ef444420;color:#ef4444;">Petto</span>
                     </div>
                   </div>
@@ -2029,7 +2128,7 @@
                       <span class="play-icon">▶</span>
                     </a>
                     <div class="card-info">
-                      <a href="https://www.youtube.com/results?search_query=Lat+Machine+esecuzione+tutorial" target="_blank" rel="noopener" class="card-title"><b>#6</b> Lat Machine<span class="ss-badge">🔗 SS</span></a>
+                      <span class="card-title-text"><b>#6</b> Lat Machine<span class="ss-badge">🔗 SS</span></span>
                       <span class="badge" style="background:#3b82f620;color:#3b82f6;">Dorsali</span>
                     </div>
                   </div>
@@ -2056,9 +2155,29 @@
       <h3 id="modalTitle">Storico Carichi</h3>
       <span class="history-close" id="modalClose">&times;</span>
     </div>
+    <!-- Mini Grafico Trendline Lineare -->
+        <div id="chartSummary" class="chart-summary">
+      <div class="chart-range">
+        <span id="chartFrom">-</span>
+        <span class="chart-arrow">&rarr;</span>
+        <span id="chartTo">-</span>
+      </div>
+      <span id="chartDelta" class="chart-delta flat">stabile</span>
+    </div>
+        <div id="chartContainer" class="chart-wrap">
+      <canvas id="chartCanvas" class="chart-canvas"></canvas>
+      <div id="chartTip" class="chart-tip"></div>
+    </div>
+    <div id="chartDates" class="chart-dates">
+      <span id="chartDateFrom"></span>
+      <span id="chartDateTo"></span>
+    </div>
+    <div id="chartCaption" class="chart-caption">da sinistra, il pi&ugrave; vecchio</div>
+    <div id="chartEmptyMsg" class="chart-empty" style="display:none;">Registra almeno 2 carichi per visualizzare la progressione.</div>
     <div id="historyList" class="history-list"></div>
   </div>
 </div>
+
 <div id="notesModal" class="history-modal">
   <div class="history-box">
     <div class="history-header">
@@ -2123,17 +2242,34 @@
       } catch (err) {}
     }
 
-    // Timer e Countdown Intelligente
+    // Timer e Countdown Intelligente con Supporto Anti-Standby
     let timerInterval = null;
     let timerMode = 'stopwatch';
     let currentSeconds = 0;
     let initialCountdownSeconds = 0;
-    let activeRestCell = null;
+    let targetEndTime = 0;
+    let stopwatchStartTime = 0;
+    let wakeLock = null;
 
     const timerDisplay = document.getElementById('timerDisplay');
     const timerStartBtn = document.getElementById('timerStartBtn');
     const timerPauseBtn = document.getElementById('timerPauseBtn');
     const timerResetBtn = document.getElementById('timerResetBtn');
+
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator && !wakeLock) {
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+        } catch (err) {}
+      }
+    }
+
+    function releaseWakeLock() {
+      if (wakeLock) {
+        try { wakeLock.release(); } catch(e) {}
+        wakeLock = null;
+      }
+    }
 
     function parseRestStringToSeconds(str) {
       if (!str) return 0;
@@ -2165,30 +2301,41 @@
       }
     }
 
+    function syncTimeWithClock() {
+      const now = Date.now();
+      if (timerMode === 'countdown') {
+        const remaining = Math.max(0, Math.round((targetEndTime - now) / 1000));
+        currentSeconds = remaining;
+        updateTimerView();
+        if (currentSeconds === 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          releaseWakeLock();
+          playBeepSound();
+          if (navigator.vibrate) {
+            try { navigator.vibrate([250, 100, 250]); } catch(e) {}
+          }
+          if (timerDisplay) timerDisplay.classList.add('flash');
+        }
+      } else if (timerInterval) {
+        currentSeconds = Math.max(0, Math.round((now - stopwatchStartTime) / 1000));
+        updateTimerView();
+      }
+    }
+
     function startTimerTick() {
       clearInterval(timerInterval);
       if (timerDisplay) timerDisplay.classList.remove('flash');
+      requestWakeLock();
       
-      timerInterval = setInterval(() => {
-        if (timerMode === 'countdown') {
-          if (currentSeconds > 0) {
-            currentSeconds--;
-            updateTimerView();
-            if (currentSeconds === 0) {
-              clearInterval(timerInterval);
-              timerInterval = null;
-              playBeepSound();
-              if (navigator.vibrate) {
-                try { navigator.vibrate([250, 100, 250]); } catch(e) {}
-              }
-              if (timerDisplay) timerDisplay.classList.add('flash');
-            }
-          }
-        } else {
-          currentSeconds++;
-          updateTimerView();
-        }
-      }, 1000);
+      const now = Date.now();
+      if (timerMode === 'countdown') {
+        targetEndTime = now + (currentSeconds * 1000);
+      } else {
+        stopwatchStartTime = now - (currentSeconds * 1000);
+      }
+
+      timerInterval = setInterval(syncTimeWithClock, 500);
     }
 
     function loadAndStartCountdown(seconds, triggerElement) {
@@ -2202,16 +2349,13 @@
       document.querySelectorAll('.cell-rest').forEach(c => c.classList.remove('active-timer'));
       if (triggerElement && triggerElement.classList.contains('cell-rest')) {
         triggerElement.classList.add('active-timer');
-        activeRestCell = triggerElement;
       }
       startTimerTick();
     }
 
     if (timerStartBtn) {
       timerStartBtn.addEventListener('click', () => {
-        if (!timerInterval) {
-          startTimerTick();
-        }
+        if (!timerInterval) startTimerTick();
       });
     }
 
@@ -2219,6 +2363,7 @@
       timerPauseBtn.addEventListener('click', () => {
         clearInterval(timerInterval);
         timerInterval = null;
+        releaseWakeLock();
       });
     }
 
@@ -2226,6 +2371,7 @@
       timerResetBtn.addEventListener('click', () => {
         clearInterval(timerInterval);
         timerInterval = null;
+        releaseWakeLock();
         timerMode = 'stopwatch';
         currentSeconds = 0;
         initialCountdownSeconds = 0;
@@ -2243,6 +2389,13 @@
           loadAndStartCountdown(sec, cell);
         }
       });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && timerInterval) {
+        syncTimeWithClock();
+        requestWakeLock();
+      }
     });
 
     function checkExerciseCompletion(container) {
@@ -2414,6 +2567,21 @@
     const modalTitle = document.getElementById('modalTitle');
     const historyList = document.getElementById('historyList');
     const modalClose = document.getElementById('modalClose');
+    const chartContainer = document.getElementById('chartContainer');
+    const chartCanvas = document.getElementById('chartCanvas');
+    const chartEmptyMsg = document.getElementById('chartEmptyMsg');
+    const chartSummary = document.getElementById('chartSummary');
+    const chartFrom = document.getElementById('chartFrom');
+    const chartTo = document.getElementById('chartTo');
+    const chartDelta = document.getElementById('chartDelta');
+    const chartDates = document.getElementById('chartDates');
+    const chartDateFrom = document.getElementById('chartDateFrom');
+    const chartDateTo = document.getElementById('chartDateTo');
+    const chartCaption = document.getElementById('chartCaption');
+    const chartTip = document.getElementById('chartTip');
+    let chartHits = [];
+    let chartSelected = -1;
+    let chartHistory = null;
     let currentActiveKey = null;
 
     function getNowStr() {
@@ -2423,6 +2591,215 @@
       return datePart + ' ' + timePart;
     }
 
+    // Disegno Canvas Nativo Trendline dei Carichi (Lineare Rosso Bordeaux con Gradiente)
+    function parseChartPoints(history) {
+      const out = [];
+      history.forEach(item => {
+        const raw = String(item.kg == null ? '' : item.kg).trim();
+        const n = parseFloat(raw.replace(',', '.'));
+        if (!isNaN(n)) out.push({ kg: raw, value: n, date: item.date || '' });
+      });
+      return out;
+    }
+
+    function formatKgLabel(raw) {
+      const txt = String(raw == null ? '' : raw).trim();
+      if (!txt) return '-';
+      if (/kg/i.test(txt)) return txt;
+      return txt + ' kg';
+    }
+
+    function formatDelta(n) {
+      const rounded = Math.round(n * 10) / 10;
+      if (!rounded) return 'stabile';
+      const abs = Math.abs(rounded);
+      const body = Number.isInteger(abs) ? String(abs) : String(abs).replace('.', ',');
+      return (rounded > 0 ? '+' : '−') + body + ' kg';
+    }
+
+    function shortDate(s) {
+      const txt = String(s || '').trim();
+      return txt ? txt.split(' ')[0] : '—';
+    }
+
+    function setChartChrome(on) {
+      if (chartSummary) chartSummary.classList.toggle('visible', on);
+      if (chartDates) chartDates.classList.toggle('visible', on);
+      if (chartCaption) chartCaption.classList.toggle('visible', on);
+    }
+
+    function updateChartSummary(points) {
+      const first = points[0];
+      const last = points[points.length - 1];
+      const delta = last.value - first.value;
+      if (chartFrom) chartFrom.textContent = formatKgLabel(first.kg);
+      if (chartTo) chartTo.textContent = formatKgLabel(last.kg);
+      if (chartDateFrom) chartDateFrom.textContent = shortDate(first.date);
+      if (chartDateTo) chartDateTo.textContent = shortDate(last.date);
+      if (chartDelta) {
+        chartDelta.textContent = formatDelta(delta);
+        chartDelta.classList.remove('up', 'down', 'flat');
+        chartDelta.classList.add(delta > 0 ? 'up' : (delta < 0 ? 'down' : 'flat'));
+      }
+      setChartChrome(true);
+    }
+
+    function drawWeightProgressionChart(history, attempt) {
+      if (!chartCanvas || !chartContainer) return;
+      attempt = attempt || 0;
+      chartHistory = history;
+      const points = parseChartPoints(history);
+            if (points.length < 2) {
+        chartContainer.style.display = 'none';
+        if (chartEmptyMsg) chartEmptyMsg.style.display = 'block';
+        setChartChrome(false);
+        chartHits = [];
+        chartSelected = -1;
+        hideChartTip();
+        return;
+      }
+
+      chartContainer.style.display = 'block';
+      if (chartEmptyMsg) chartEmptyMsg.style.display = 'none';
+      updateChartSummary(points);
+
+      const w = chartContainer.clientWidth;
+      const h = chartContainer.clientHeight;
+      if (w < 2 || h < 2) {
+        if (attempt < 8) requestAnimationFrame(() => drawWeightProgressionChart(history, attempt + 1));
+        return;
+      }
+
+      const dpr = window.devicePixelRatio || 1;
+      chartCanvas.width = Math.round(w * dpr);
+      chartCanvas.height = Math.round(h * dpr);
+      const ctx = chartCanvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const padX = 16;
+      const padTop = 28;
+      const padBottom = 14;
+      const values = points.map(p => p.value);
+      const minVal = Math.min.apply(null, values);
+      const maxVal = Math.max.apply(null, values);
+      const flat = maxVal === minVal;
+      const range = flat ? 1 : (maxVal - minVal);
+      const getX = (i) => padX + (i * ((w - padX * 2) / (points.length - 1)));
+      const getY = (val) => {
+        if (flat) return (padTop + (h - padBottom)) / 2;
+        return (h - padBottom) - (((val - minVal) / range) * (h - padTop - padBottom));
+      };
+
+      ctx.beginPath();
+      ctx.moveTo(getX(0), h - padBottom);
+      points.forEach((p, i) => ctx.lineTo(getX(i), getY(p.value)));
+      ctx.lineTo(getX(points.length - 1), h - padBottom);
+      ctx.closePath();
+      const grad = ctx.createLinearGradient(0, padTop, 0, h - padBottom);
+      grad.addColorStop(0, 'rgba(128, 0, 0, 0.16)');
+      grad.addColorStop(1, 'rgba(128, 0, 0, 0)');
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      ctx.beginPath();
+      points.forEach((p, i) => {
+        const x = getX(i);
+        const y = getY(p.value);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = '#800000';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+
+            const labelColor = (getComputedStyle(document.documentElement).getPropertyValue('--text') || '#333').trim() || '#333';
+      chartHits = [];
+      points.forEach((p, i) => {
+        const x = getX(i);
+        const y = getY(p.value);
+        const last = i === points.length - 1;
+        const selected = i === chartSelected;
+        chartHits.push({ x: x, y: y, kg: p.kg, date: p.date });
+        if (selected) {
+          ctx.beginPath();
+          ctx.arc(x, y, 9, 0, Math.PI * 2);
+          ctx.strokeStyle = '#800000';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.arc(x, y, last ? 5.5 : 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#800000';
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+        if (last) {
+          ctx.fillStyle = labelColor;
+          ctx.font = 'bold 11px sans-serif';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(formatKgLabel(p.kg), x, Math.max(13, y - 7));
+        }
+      });
+    }
+    function hideChartTip() {
+      if (chartTip) chartTip.classList.remove('visible');
+    }
+
+    function showChartTip(hit) {
+      if (!chartTip || !hit) return;
+      chartTip.textContent = '';
+      const strong = document.createElement('span');
+      strong.textContent = formatKgLabel(hit.kg);
+      const small = document.createElement('small');
+      small.textContent = shortDate(hit.date);
+      chartTip.appendChild(strong);
+      chartTip.appendChild(small);
+      chartTip.classList.add('visible');
+      const tipW = chartTip.offsetWidth;
+      const tipH = chartTip.offsetHeight;
+      const maxW = chartContainer.clientWidth;
+      let left = hit.x - tipW / 2;
+      let top = hit.y - tipH - 12;
+      if (left < 4) left = 4;
+      if (left + tipW > maxW - 4) left = Math.max(4, maxW - tipW - 4);
+      if (top < 4) top = hit.y + 14;
+      chartTip.style.left = left + 'px';
+      chartTip.style.top = top + 'px';
+    }
+
+    function onChartPick(e) {
+      if (!chartHits.length || !chartCanvas) return;
+      const src = e.changedTouches ? e.changedTouches[0] : e;
+      const rect = chartCanvas.getBoundingClientRect();
+      const x = src.clientX - rect.left;
+      const y = src.clientY - rect.top;
+      let best = -1;
+      let bestD = 28;
+      chartHits.forEach((h, i) => {
+        const d = Math.hypot(h.x - x, h.y - y);
+        if (d <= bestD) { best = i; bestD = d; }
+      });
+      if (best < 0) {
+        chartSelected = -1;
+        hideChartTip();
+        if (chartHistory) drawWeightProgressionChart(chartHistory);
+        return;
+      }
+      const picked = chartHits[best];
+      chartSelected = best;
+      if (chartHistory) drawWeightProgressionChart(chartHistory);
+      showChartTip(chartHits[chartSelected] || picked);
+    }
+
+    if (chartCanvas && !chartCanvas._apexPick) {
+      chartCanvas._apexPick = true;
+      chartCanvas.addEventListener('pointerup', onChartPick);
+    }
     inputs.forEach(input => {
       const key = input.getAttribute('data-key');
       const saved = localStorage.getItem(key);
@@ -2452,12 +2829,22 @@
       const history = JSON.parse(localStorage.getItem(histKey) || '[]');
       historyList.innerHTML = '';
 
+      // Aggiorna il grafico cronologico con i dati correnti
+            chartSelected = -1;
+      hideChartTip();
+      drawWeightProgressionChart(history);
+
       if (history.length === 0) {
         historyList.innerHTML = '<div style="color:#94a3b8;text-align:center;padding:12px;">Nessun carico registrato finora.</div>';
         return;
       }
 
-      [...history].reverse().forEach(h => {
+            const hint = document.createElement('div');
+      hint.className = 'history-order';
+      hint.textContent = 'Dal più vecchio';
+      historyList.appendChild(hint);
+
+      history.forEach(h => {
         const row = document.createElement('div');
         row.className = 'history-entry';
         row.innerHTML = `
@@ -2486,9 +2873,9 @@
       btn.addEventListener('click', () => {
         currentActiveKey = btn.getAttribute('data-key');
         const name = btn.getAttribute('data-name');
-        modalTitle.textContent = name;
-        renderHistoryList(currentActiveKey);
+                modalTitle.textContent = name;
         modal.classList.add('active');
+        requestAnimationFrame(() => renderHistoryList(currentActiveKey));
       });
     });
 
@@ -2497,6 +2884,7 @@
       if (e.target === modal) modal.classList.remove('active');
     });
 
+    // Gestione Popup Note con salvataggio in LocalStorage
     const notesModal = document.getElementById('notesModal');
     const notesModalTitle = document.getElementById('notesModalTitle');
     const notesContent = document.getElementById('notesContent');
@@ -2528,8 +2916,11 @@
       btnSaveNote.addEventListener('click', () => {
         if (activeNoteKey) {
           const text = notesContent.value.trim();
-          if (text) localStorage.setItem(activeNoteKey, text);
-          else localStorage.removeItem(activeNoteKey);
+          if (text) {
+            localStorage.setItem(activeNoteKey, text);
+          } else {
+            localStorage.removeItem(activeNoteKey);
+          }
           refreshNoteBadges();
         }
         notesModal.classList.remove('active');
