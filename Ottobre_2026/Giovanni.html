@@ -1767,9 +1767,29 @@
   </div>
 </div>
 
+<!-- Librerie Ufficiali Firebase Compatibili -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
   (function() {
-    // Gestione a 3 Temi: Light -> Dark Studio -> AMOLED Black
+    // Inizializzazione Firebase Cloud Database
+    const firebaseConfig = {{
+      apiKey: "AIzaSyCJFlbIvW58wczqnDHNeZwm-A5zkmCLHXE",
+      authDomain: "apex-planner-1822b.firebaseapp.com",
+      databaseURL: "https://apex-planner-1822b-default-rtdb.firebaseio.com",
+      projectId: "apex-planner-1822b",
+      storageBucket: "apex-planner-1822b.firebasestorage.app",
+      messagingSenderId: "74296244626",
+      appId: "1:74296244626:web:b18152e491d036feff294b"
+    }};
+    
+    if (!firebase.apps.length) {{
+      firebase.initializeApp(firebaseConfig);
+    }}
+    const db = firebase.database();
+    const athletePath = 'atleti/{slug(data.get("atleta", "Default"))}';
+// Gestione a 3 Temi: Light -> Dark Studio -> AMOLED Black
     const themeToggle = document.getElementById('btnThemeToggle');
     const htmlRoot = document.documentElement;
     const savedTheme = localStorage.getItem('apex_theme') || 'light';
@@ -2376,96 +2396,68 @@
       chartCanvas._apexPick = true;
       chartCanvas.addEventListener('pointerup', onChartPick);
     }
+        // 1. Lettura dati in Realtime da Firebase al caricamento della pagina
     inputs.forEach(input => {
       const key = input.getAttribute('data-key');
-      const saved = localStorage.getItem(key);
-      if (saved !== null) {
-        input.value = saved;
-      }
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+      
+      // Carica prima dal local storage (immediato e offline)
+      const localVal = localStorage.getItem(key);
+      if (localVal !== null) input.value = localVal;
 
-            function recordWeightEntry(val) {
-        if (!val || val === '-') return;
-        const histKey = 'hist_' + key;
-        let history = JSON.parse(localStorage.getItem(histKey) || '[]');
-        const todayStr = getNowStr().split(' ')[0]; // Prende solo la data (GG/MM/AAAA)
-        
-        // Controlla se abbiamo già registrato un peso identico oggi per non duplicare
-        const lastEntry = history[history.length - 1];
-        if (lastEntry && lastEntry.date.startsWith(todayStr) && lastEntry.kg === val) {
-          return; // Già salvato oggi con lo stesso carico
-        }
-
-        history.push({ id: Date.now(), date: getNowStr(), kg: val });
-        localStorage.setItem(histKey, JSON.stringify(history));
-      }
-
-      // 'change' scatta se modifichi il testo
-      input.addEventListener('change', (e) => {
-        const val = e.target.value.trim();
-        localStorage.setItem(key, val);
-        document.querySelectorAll(`.kg-input[data-key="${key}"]`).forEach(el => {
-          if (el !== e.target) el.value = val;
-        });
-        recordWeightEntry(val);
-      });
-
-      // Permette di salvare lo stesso carico semplicemente premendo INVIO nella casella
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const val = input.value.trim();
-          localStorage.setItem(key, val);
-          recordWeightEntry(val);
-          input.blur(); // Toglie il focus per confermare
+      // Poi sincronizza da Firebase
+      db.ref(athletePath + '/pesi/' + cleanKey).once('value').then(snap => {
+        const cloudVal = snap.val();
+        if (cloudVal !== null && cloudVal !== undefined) {
+          input.value = cloudVal;
+          localStorage.setItem(key, cloudVal);
         }
       });
     });
 
-    function renderHistoryList(key) {
+    function recordWeightEntry(val, key) {
+      if (!val || val === '-') return;
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
       const histKey = 'hist_' + key;
-      const history = JSON.parse(localStorage.getItem(histKey) || '[]');
-      historyList.innerHTML = '';
-
-      // Aggiorna il grafico cronologico con i dati correnti
-            chartSelected = -1;
-      hideChartTip();
-      drawWeightProgressionChart(history);
-
-      if (history.length === 0) {
-        historyList.innerHTML = '<div style="color:#94a3b8;text-align:center;padding:12px;">Nessun carico registrato finora.</div>';
+      let history = JSON.parse(localStorage.getItem(histKey) || '[]');
+      const todayStr = getNowStr().split(' ')[0];
+      
+      const lastEntry = history[history.length - 1];
+      if (lastEntry && lastEntry.date.startsWith(todayStr) && lastEntry.kg === val) {
         return;
       }
 
-            const hint = document.createElement('div');
-      hint.className = 'history-order';
-      hint.textContent = 'Dal più vecchio';
-      historyList.appendChild(hint);
-
-      history.forEach(h => {
-        const row = document.createElement('div');
-        row.className = 'history-entry';
-        row.innerHTML = `
-          <div class="history-left">
-            <span class="history-val">${h.kg} Kg</span>
-            <span class="history-date">${h.date}</span>
-          </div>
-          <button type="button" class="history-del" data-id="${h.id}" title="Elimina questa voce">&times;</button>
-        `;
-        historyList.appendChild(row);
-      });
-
-      historyList.querySelectorAll('.history-del').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const idToDel = Number(btn.getAttribute('data-id'));
-          let curHist = JSON.parse(localStorage.getItem(histKey) || '[]');
-          curHist = curHist.filter(item => item.id !== idToDel);
-          localStorage.setItem(histKey, JSON.stringify(curHist));
-          renderHistoryList(key);
-        });
-      });
+      const newEntry = { id: Date.now(), date: getNowStr(), kg: val };
+      history.push(newEntry);
+      localStorage.setItem(histKey, JSON.stringify(history));
+      
+      // Salva storico su Firebase Cloud
+      db.ref(athletePath + '/storico/' + cleanKey).set(history);
     }
 
-    histBtns.forEach(btn => {
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-key');
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      function saveVal(val) {
+        localStorage.setItem(key, val);
+        db.ref(athletePath + '/pesi/' + cleanKey).set(val);
+        document.querySelectorAll(`.kg-input[data-key="${key}"]`).forEach(el => {
+          if (el !== input) el.value = val;
+        });
+        recordWeightEntry(val, key);
+      }
+
+      input.addEventListener('change', (e) => saveVal(e.target.value.trim()));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          saveVal(input.value.trim());
+          input.blur();
+        }
+      });
+    });
+ }
+   histBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         currentActiveKey = btn.getAttribute('data-key');
         const name = btn.getAttribute('data-name');
@@ -2508,19 +2500,36 @@
       });
     });
 
-    if (btnSaveNote) {
+        if (btnSaveNote) {
       btnSaveNote.addEventListener('click', () => {
         if (activeNoteKey) {
           const text = notesContent.value.trim();
+          const cleanNoteKey = activeNoteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
           if (text) {
             localStorage.setItem(activeNoteKey, text);
+            db.ref(athletePath + '/note/' + cleanNoteKey).set(text);
           } else {
             localStorage.removeItem(activeNoteKey);
+            db.ref(athletePath + '/note/' + cleanNoteKey).remove();
           }
           refreshNoteBadges();
         }
         notesModal.classList.remove('active');
       });
+    }
+
+    // Carica le note salvate su Firebase
+    document.querySelectorAll('.btn-notes').forEach(btn => {
+      const noteKey = 'note_' + btn.getAttribute('data-key');
+      const cleanNoteKey = noteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
+      db.ref(athletePath + '/note/' + cleanNoteKey).once('value').then(snap => {
+        const val = snap.val();
+        if (val) {
+          localStorage.setItem(noteKey, val);
+          refreshNoteBadges();
+        }
+      });
+    });
     }
 
     if (notesModalClose) {
