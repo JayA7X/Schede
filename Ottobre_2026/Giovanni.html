@@ -2457,11 +2457,131 @@
       });
     });
  }
-   histBtns.forEach(btn => {
+       // 1. Lettura carichi e storico da LocalStorage e Firebase
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-key');
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+      
+      const localVal = localStorage.getItem(key);
+      if (localVal !== null) input.value = localVal;
+
+      if (db) {
+        db.ref(athletePath + '/pesi/' + cleanKey).once('value').then(snap => {
+          const cloudVal = snap.val();
+          if (cloudVal !== null && cloudVal !== undefined) {
+            input.value = cloudVal;
+            localStorage.setItem(key, cloudVal);
+          }
+        }).catch(err => console.warn(err));
+
+        db.ref(athletePath + '/storico/' + cleanKey).once('value').then(snap => {
+          const cloudHist = snap.val();
+          if (cloudHist && Array.isArray(cloudHist)) {
+            localStorage.setItem('hist_' + key, JSON.stringify(cloudHist));
+          }
+        }).catch(err => console.warn(err));
+      }
+    });
+
+    function recordWeightEntry(val, key) {
+      if (!val || val === '-') return;
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const histKey = 'hist_' + key;
+      let history = JSON.parse(localStorage.getItem(histKey) || '[]');
+      const todayStr = getNowStr().split(' ')[0];
+      
+      const lastEntry = history[history.length - 1];
+      if (lastEntry && lastEntry.date && lastEntry.date.startsWith(todayStr) && lastEntry.kg === val) {
+        return;
+      }
+
+      const newEntry = { id: Date.now(), date: getNowStr(), kg: val };
+      history.push(newEntry);
+      localStorage.setItem(histKey, JSON.stringify(history));
+      
+      if (db) {
+        db.ref(athletePath + '/storico/' + cleanKey).set(history).catch(err => console.warn(err));
+      }
+    }
+
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-key');
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      function saveVal(val) {
+        localStorage.setItem(key, val);
+        if (db) {
+          db.ref(athletePath + '/pesi/' + cleanKey).set(val).catch(err => console.warn(err));
+        }
+        document.querySelectorAll(`.kg-input[data-key="${key}"]`).forEach(el => {
+          if (el !== input) el.value = val;
+        });
+        recordWeightEntry(val, key);
+      }
+
+      input.addEventListener('change', (e) => saveVal(e.target.value.trim()));
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          saveVal(input.value.trim());
+          input.blur();
+        }
+      });
+    });
+
+    // Funzione renderHistoryList (ripristinata)
+    function renderHistoryList(key) {
+      const histKey = 'hist_' + key;
+      const history = JSON.parse(localStorage.getItem(histKey) || '[]');
+      historyList.innerHTML = '';
+
+      chartSelected = -1;
+      hideChartTip();
+      drawWeightProgressionChart(history);
+
+      if (history.length === 0) {
+        historyList.innerHTML = '<div style="color:#94a3b8;text-align:center;padding:12px;">Nessun carico registrato finora.</div>';
+        return;
+      }
+
+      const hint = document.createElement('div');
+      hint.className = 'history-order';
+      hint.textContent = 'Dal più vecchio';
+      historyList.appendChild(hint);
+
+      history.forEach(h => {
+        const row = document.createElement('div');
+        row.className = 'history-entry';
+        row.innerHTML = `
+          <div class="history-left">
+            <span class="history-val">${h.kg} Kg</span>
+            <span class="history-date">${h.date}</span>
+          </div>
+          <button type="button" class="history-del" data-id="${h.id}" title="Elimina questa voce">&times;</button>
+        `;
+        historyList.appendChild(row);
+      });
+
+      historyList.querySelectorAll('.history-del').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idToDel = Number(btn.getAttribute('data-id'));
+          let curHist = JSON.parse(localStorage.getItem(histKey) || '[]');
+          curHist = curHist.filter(item => item.id !== idToDel);
+          localStorage.setItem(histKey, JSON.stringify(curHist));
+          const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+          if (db) {
+            db.ref(athletePath + '/storico/' + cleanKey).set(curHist).catch(err => console.warn(err));
+          }
+          renderHistoryList(key);
+        });
+      });
+    }
+
+    histBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         currentActiveKey = btn.getAttribute('data-key');
         const name = btn.getAttribute('data-name');
-                modalTitle.textContent = name;
+        modalTitle.textContent = name;
         modal.classList.add('active');
         requestAnimationFrame(() => renderHistoryList(currentActiveKey));
       });
@@ -2471,6 +2591,73 @@
     window.addEventListener('click', (e) => {
       if (e.target === modal) modal.classList.remove('active');
     });
+
+    // Gestione Popup Note
+    const notesModal = document.getElementById('notesModal');
+    const notesModalTitle = document.getElementById('notesModalTitle');
+    const notesContent = document.getElementById('notesContent');
+    const notesModalClose = document.getElementById('notesModalClose');
+    const btnSaveNote = document.getElementById('btnSaveNote');
+    let activeNoteKey = null;
+
+    function refreshNoteBadges() {
+      document.querySelectorAll('.btn-notes').forEach(btn => {
+        const key = 'note_' + btn.getAttribute('data-key');
+        const val = localStorage.getItem(key);
+        btn.classList.toggle('has-note', Boolean(val && val.trim()));
+      });
+    }
+
+    refreshNoteBadges();
+
+    document.querySelectorAll('.btn-notes').forEach(btn => {
+      const noteKey = 'note_' + btn.getAttribute('data-key');
+      const cleanNoteKey = noteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      if (db) {
+        db.ref(athletePath + '/note/' + cleanNoteKey).once('value').then(snap => {
+          const val = snap.val();
+          if (val) {
+            localStorage.setItem(noteKey, val);
+            refreshNoteBadges();
+          }
+        }).catch(err => console.warn(err));
+      }
+
+      btn.addEventListener('click', () => {
+        activeNoteKey = noteKey;
+        notesModalTitle.textContent = btn.getAttribute('data-name');
+        notesContent.value = localStorage.getItem(activeNoteKey) || '';
+        notesModal.classList.add('active');
+        setTimeout(() => notesContent.focus(), 100);
+      });
+    });
+
+    if (btnSaveNote) {
+      btnSaveNote.addEventListener('click', () => {
+        if (activeNoteKey) {
+          const text = notesContent.value.trim();
+          const cleanNoteKey = activeNoteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
+          if (text) {
+            localStorage.setItem(activeNoteKey, text);
+            if (db) db.ref(athletePath + '/note/' + cleanNoteKey).set(text).catch(err => console.warn(err));
+          } else {
+            localStorage.removeItem(activeNoteKey);
+            if (db) db.ref(athletePath + '/note/' + cleanNoteKey).remove().catch(err => console.warn(err));
+          }
+          refreshNoteBadges();
+        }
+        notesModal.classList.remove('active');
+      });
+    }
+
+    if (notesModalClose) {
+      notesModalClose.addEventListener('click', () => notesModal.classList.remove('active'));
+    }
+    window.addEventListener('click', (e) => {
+      if (e.target === notesModal) notesModal.classList.remove('active');
+    });
+  })();
 
     // Gestione Popup Note con salvataggio in LocalStorage
     const notesModal = document.getElementById('notesModal');
