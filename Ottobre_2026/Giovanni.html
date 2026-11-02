@@ -23,7 +23,6 @@
     --ss-bg: #faf5ff;
   }
 
-  /* TEMA DARK STUDIO */
   [data-theme="dark"] {
     --primary: #5c0000;
     --accent: #ef4444;
@@ -39,7 +38,6 @@
     --ss-bg: rgba(124, 58, 237, 0.15);
   }
 
-  /* TEMA AMOLED BLACK */
   [data-theme="amoled"] {
     --primary: #450a0a;
     --accent: #ef4444;
@@ -131,7 +129,6 @@
     color: var(--primary);
   }
 
-  /* Barra di Navigazione Giorni */
   .days-nav-wrapper {
     position: sticky;
     top: 0;
@@ -158,7 +155,6 @@
     white-space: nowrap;
   }
 
-  /* Timer Integrato */
   .rest-timer-box {
     display: inline-flex;
     align-items: center;
@@ -300,15 +296,9 @@
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     animation-fill-mode: forwards;
   }
-  .day-block.active {
-    display: block;
-  }
-  .day-block.slide-next {
-    animation-name: slideFromRight;
-  }
-  .day-block.slide-prev {
-    animation-name: slideFromLeft;
-  }
+  .day-block.active { display: block; }
+  .day-block.slide-next { animation-name: slideFromRight; }
+  .day-block.slide-prev { animation-name: slideFromLeft; }
 
   @keyframes slideFromRight {
     from { opacity: 0; transform: translateX(35px); }
@@ -405,7 +395,6 @@
   .table-ex-cell { display: flex; align-items: center; gap: 8px; }
   .table-ex-name { color: var(--text); font-weight: 600; }
 
-  /* Box KG & Storico */
   .kg-box-wrap {
     display: inline-flex;
     align-items: center;
@@ -441,7 +430,6 @@
   }
   .btn-history:hover { background: var(--border); }
   
-  /* Tasto Note */
   .btn-notes {
     background: var(--th-bg);
     border: 1px solid var(--input-border);
@@ -477,7 +465,6 @@
     border-color: var(--accent);
   }
   
-  /* Tracker Quadratini Serie */
   .sets-tracker {
     display: inline-flex;
     flex-wrap: wrap;
@@ -511,31 +498,24 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   }
   
-  /* Cella Recupero Cliccabile */
   .cell-rest {
     cursor: pointer;
     transition: all 0.15s;
     user-select: none;
   }
-  .cell-rest:hover {
-    color: var(--accent);
-  }
+  .cell-rest:hover { color: var(--accent); }
   .cell-rest.active-timer {
     color: var(--accent) !important;
     font-weight: 800 !important;
     text-shadow: 0 0 8px rgba(128, 0, 0, 0.2);
   }
   
-  /* Evidenziazione Verde */
-  tr.exercise-completed td {
-    background: rgba(16, 185, 129, 0.08) !important;
-  }
+  tr.exercise-completed td { background: rgba(16, 185, 129, 0.08) !important; }
   .card-item.exercise-completed {
     background: rgba(16, 185, 129, 0.08) !important;
     border-color: rgba(16, 185, 129, 0.4) !important;
   }
   
-  /* Super Serie Desktop */
   tr.ss-linked td {
     background: var(--ss-bg) !important;
     border-top: 2px dashed #7c3aed !important;
@@ -581,7 +561,6 @@
     text-transform: none;
   }
   
-  /* Mobile Cards Base */
   .mobile-cards { display: none; }
   .card-item {
     border: 1px solid var(--border);
@@ -592,7 +571,6 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
   }
 
-  /* Super Serie Mobile */
   .card-item.ss-linked {
     background: var(--ss-bg);
     border: 2px dashed #7c3aed !important;
@@ -638,7 +616,6 @@
   .card-label { font-size: 9px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   .card-val { font-size: 12px; font-weight: 700; color: var(--text); margin-top: 2px; }
 
-  /* Modal Storico con Grafico Integrato */
   .history-modal {
     display: none;
     position: fixed;
@@ -669,8 +646,7 @@
   .history-header h3 { margin: 0; font-size: 14px; font-weight: 800; color: var(--accent); }
   .history-close { cursor: pointer; font-size: 18px; font-weight: bold; color: var(--muted); }
   
-  /* Contenitore Grafico Progressioni */
-    .chart-summary {
+  .chart-summary {
     display: none;
     align-items: center;
     justify-content: space-between;
@@ -713,7 +689,7 @@
     border: 1px solid var(--border);
     display: none;
   }
-    .chart-canvas {
+  .chart-canvas {
     width: 100%;
     height: 100%;
     display: block;
@@ -1731,8 +1707,7 @@
       <h3 id="modalTitle">Storico Carichi</h3>
       <span class="history-close" id="modalClose">&times;</span>
     </div>
-    <!-- Mini Grafico Trendline Lineare -->
-        <div id="chartSummary" class="chart-summary">
+    <div id="chartSummary" class="chart-summary">
       <div class="chart-range">
         <span id="chartFrom">-</span>
         <span class="chart-arrow">&rarr;</span>
@@ -1740,7 +1715,7 @@
       </div>
       <span id="chartDelta" class="chart-delta flat">stabile</span>
     </div>
-        <div id="chartContainer" class="chart-wrap">
+    <div id="chartContainer" class="chart-wrap">
       <canvas id="chartCanvas" class="chart-canvas"></canvas>
       <div id="chartTip" class="chart-tip"></div>
     </div>
@@ -1767,8 +1742,34 @@
   </div>
 </div>
 
+<!-- Librerie Ufficiali Firebase Compatibili -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+
+
   (function() {
+    let db = null;
+    const athletePath = 'atleti/Giovanni';
+    try {
+      const firebaseConfig = {
+        apiKey: "AIzaSyCJFlbIvW58wczqnDHNeZwm-A5zkmCLHXE",
+        authDomain: "apex-planner-1822b.firebaseapp.com",
+        databaseURL: "https://apex-planner-1822b-default-rtdb.firebaseio.com",
+        projectId: "apex-planner-1822b",
+        storageBucket: "apex-planner-1822b.firebasestorage.app",
+        messagingSenderId: "74296244626",
+        appId: "1:74296244626:web:b18152e491d036feff294b"
+      };
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      db = firebase.database();
+    } catch(e) {
+      console.warn("Firebase non attivo, uso solo LocalStorage", e);
+    }
+
     // Gestione a 3 Temi: Light -> Dark Studio -> AMOLED Black
     const themeToggle = document.getElementById('btnThemeToggle');
     const htmlRoot = document.documentElement;
@@ -1992,7 +1993,7 @@
 
       if (isDone) {
         pill.classList.add('completed');
-        pill.textContent = '✓︎';
+        pill.textContent = '\u2713\uFE0E';
       }
 
       const tracker = pill.closest('.sets-tracker');
@@ -2004,12 +2005,12 @@
         localStorage.setItem(key, done ? 'true' : 'false');
         
         const sNum = key.split('_s').pop();
-        pill.textContent = done ? '✓︎' : sNum;
+        pill.textContent = done ? '\u2713\uFE0E' : sNum;
 
         document.querySelectorAll(`.set-pill[data-set-key="${key}"]`).forEach(el => {
           if (el !== pill) {
             el.classList.toggle('completed', done);
-            el.textContent = done ? '✓︎' : sNum;
+            el.textContent = done ? '\u2713\uFE0E' : sNum;
             checkExerciseCompletion(el.closest('.sets-tracker'));
           }
         });
@@ -2167,7 +2168,6 @@
       return datePart + ' ' + timePart;
     }
 
-    // Disegno Canvas Nativo Trendline dei Carichi (Lineare Rosso Bordeaux con Gradiente)
     function parseChartPoints(history) {
       const out = [];
       history.forEach(item => {
@@ -2190,12 +2190,12 @@
       if (!rounded) return 'stabile';
       const abs = Math.abs(rounded);
       const body = Number.isInteger(abs) ? String(abs) : String(abs).replace('.', ',');
-      return (rounded > 0 ? '+' : '−') + body + ' kg';
+      return (rounded > 0 ? '+' : '\u2212') + body + ' kg';
     }
 
     function shortDate(s) {
       const txt = String(s || '').trim();
-      return txt ? txt.split(' ')[0] : '—';
+      return txt ? txt.split(' ')[0] : '\u2014';
     }
 
     function setChartChrome(on) {
@@ -2225,7 +2225,7 @@
       attempt = attempt || 0;
       chartHistory = history;
       const points = parseChartPoints(history);
-            if (points.length < 2) {
+      if (points.length < 2) {
         chartContainer.style.display = 'none';
         if (chartEmptyMsg) chartEmptyMsg.style.display = 'block';
         setChartChrome(false);
@@ -2291,7 +2291,7 @@
       ctx.lineJoin = 'round';
       ctx.stroke();
 
-            const labelColor = (getComputedStyle(document.documentElement).getPropertyValue('--text') || '#333').trim() || '#333';
+      const labelColor = (getComputedStyle(document.documentElement).getPropertyValue('--text') || '#333').trim() || '#333';
       chartHits = [];
       points.forEach((p, i) => {
         const x = getX(i);
@@ -2322,6 +2322,7 @@
         }
       });
     }
+
     function hideChartTip() {
       if (chartTip) chartTip.classList.remove('visible');
     }
@@ -2376,57 +2377,85 @@
       chartCanvas._apexPick = true;
       chartCanvas.addEventListener('pointerup', onChartPick);
     }
+
+    // 1. Lettura carichi e storico da LocalStorage e Firebase
     inputs.forEach(input => {
       const key = input.getAttribute('data-key');
-      const saved = localStorage.getItem(key);
-      if (saved !== null) {
-        input.value = saved;
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+      
+      const localVal = localStorage.getItem(key);
+      if (localVal !== null) input.value = localVal;
+
+      if (db) {
+        db.ref(athletePath + '/pesi/' + cleanKey).once('value').then(snap => {
+          const cloudVal = snap.val();
+          if (cloudVal !== null && cloudVal !== undefined) {
+            input.value = cloudVal;
+            localStorage.setItem(key, cloudVal);
+          }
+        }).catch(err => console.warn(err));
+
+        db.ref(athletePath + '/storico/' + cleanKey).once('value').then(snap => {
+          const cloudHist = snap.val();
+          if (cloudHist && Array.isArray(cloudHist)) {
+            localStorage.setItem('hist_' + key, JSON.stringify(cloudHist));
+          }
+        }).catch(err => console.warn(err));
+      }
+    });
+
+    function recordWeightEntry(val, key) {
+      if (!val || val === '-') return;
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const histKey = 'hist_' + key;
+      let history = JSON.parse(localStorage.getItem(histKey) || '[]');
+      const todayStr = getNowStr().split(' ')[0];
+      
+      const lastEntry = history[history.length - 1];
+      if (lastEntry && lastEntry.date && lastEntry.date.startsWith(todayStr) && lastEntry.kg === val) {
+        return;
       }
 
-            function recordWeightEntry(val) {
-        if (!val || val === '-') return;
-        const histKey = 'hist_' + key;
-        let history = JSON.parse(localStorage.getItem(histKey) || '[]');
-        const todayStr = getNowStr().split(' ')[0]; // Prende solo la data (GG/MM/AAAA)
-        
-        // Controlla se abbiamo già registrato un peso identico oggi per non duplicare
-        const lastEntry = history[history.length - 1];
-        if (lastEntry && lastEntry.date.startsWith(todayStr) && lastEntry.kg === val) {
-          return; // Già salvato oggi con lo stesso carico
-        }
-
-        history.push({ id: Date.now(), date: getNowStr(), kg: val });
-        localStorage.setItem(histKey, JSON.stringify(history));
+      const newEntry = { id: Date.now(), date: getNowStr(), kg: val };
+      history.push(newEntry);
+      localStorage.setItem(histKey, JSON.stringify(history));
+      
+      if (db) {
+        db.ref(athletePath + '/storico/' + cleanKey).set(history).catch(err => console.warn(err));
       }
+    }
 
-      // 'change' scatta se modifichi il testo
-      input.addEventListener('change', (e) => {
-        const val = e.target.value.trim();
+    inputs.forEach(input => {
+      const key = input.getAttribute('data-key');
+      const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      function saveVal(val) {
         localStorage.setItem(key, val);
+        if (db) {
+          db.ref(athletePath + '/pesi/' + cleanKey).set(val).catch(err => console.warn(err));
+        }
         document.querySelectorAll(`.kg-input[data-key="${key}"]`).forEach(el => {
-          if (el !== e.target) el.value = val;
+          if (el !== input) el.value = val;
         });
-        recordWeightEntry(val);
-      });
+        recordWeightEntry(val, key);
+      }
 
-      // Permette di salvare lo stesso carico semplicemente premendo INVIO nella casella
+      input.addEventListener('change', (e) => saveVal(e.target.value.trim()));
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-          const val = input.value.trim();
-          localStorage.setItem(key, val);
-          recordWeightEntry(val);
-          input.blur(); // Toglie il focus per confermare
+          saveVal(input.value.trim());
+          input.blur();
         }
       });
     });
 
+    // Funzione renderHistoryList
     function renderHistoryList(key) {
       const histKey = 'hist_' + key;
       const history = JSON.parse(localStorage.getItem(histKey) || '[]');
       historyList.innerHTML = '';
 
-      // Aggiorna il grafico cronologico con i dati correnti
-            chartSelected = -1;
+      chartSelected = -1;
       hideChartTip();
       drawWeightProgressionChart(history);
 
@@ -2435,7 +2464,7 @@
         return;
       }
 
-            const hint = document.createElement('div');
+      const hint = document.createElement('div');
       hint.className = 'history-order';
       hint.textContent = 'Dal più vecchio';
       historyList.appendChild(hint);
@@ -2460,6 +2489,10 @@
           let curHist = JSON.parse(localStorage.getItem(histKey) || '[]');
           curHist = curHist.filter(item => item.id !== idToDel);
           localStorage.setItem(histKey, JSON.stringify(curHist));
+          const cleanKey = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+          if (db) {
+            db.ref(athletePath + '/storico/' + cleanKey).set(curHist).catch(err => console.warn(err));
+          }
           renderHistoryList(key);
         });
       });
@@ -2469,7 +2502,7 @@
       btn.addEventListener('click', () => {
         currentActiveKey = btn.getAttribute('data-key');
         const name = btn.getAttribute('data-name');
-                modalTitle.textContent = name;
+        modalTitle.textContent = name;
         modal.classList.add('active');
         requestAnimationFrame(() => renderHistoryList(currentActiveKey));
       });
@@ -2480,7 +2513,7 @@
       if (e.target === modal) modal.classList.remove('active');
     });
 
-    // Gestione Popup Note con salvataggio in LocalStorage
+    // Gestione Popup Note
     const notesModal = document.getElementById('notesModal');
     const notesModalTitle = document.getElementById('notesModalTitle');
     const notesContent = document.getElementById('notesContent');
@@ -2499,8 +2532,21 @@
     refreshNoteBadges();
 
     document.querySelectorAll('.btn-notes').forEach(btn => {
+      const noteKey = 'note_' + btn.getAttribute('data-key');
+      const cleanNoteKey = noteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      if (db) {
+        db.ref(athletePath + '/note/' + cleanNoteKey).once('value').then(snap => {
+          const val = snap.val();
+          if (val) {
+            localStorage.setItem(noteKey, val);
+            refreshNoteBadges();
+          }
+        }).catch(err => console.warn(err));
+      }
+
       btn.addEventListener('click', () => {
-        activeNoteKey = 'note_' + btn.getAttribute('data-key');
+        activeNoteKey = noteKey;
         notesModalTitle.textContent = btn.getAttribute('data-name');
         notesContent.value = localStorage.getItem(activeNoteKey) || '';
         notesModal.classList.add('active');
@@ -2512,10 +2558,13 @@
       btnSaveNote.addEventListener('click', () => {
         if (activeNoteKey) {
           const text = notesContent.value.trim();
+          const cleanNoteKey = activeNoteKey.replace(/[^a-zA-Z0-9_-]/g, '_');
           if (text) {
             localStorage.setItem(activeNoteKey, text);
+            if (db) db.ref(athletePath + '/note/' + cleanNoteKey).set(text).catch(err => console.warn(err));
           } else {
             localStorage.removeItem(activeNoteKey);
+            if (db) db.ref(athletePath + '/note/' + cleanNoteKey).remove().catch(err => console.warn(err));
           }
           refreshNoteBadges();
         }
